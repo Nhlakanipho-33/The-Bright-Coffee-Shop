@@ -1,0 +1,28 @@
+SELECT 
+      DISTINCT PRODUCT_TYPE,
+      COUNT(DISTINCT TRANSACTION_ID) AS number_of_sales,
+      COUNT(DISTINCT PRODUCT_CATEGORY) AS unique_products,
+      COUNT(DISTINCT STORE_LOCATION) AS location_place,
+      TRANSACTION_QTY,UNIT_PRICE,PRODUCT_CATEGORY,STORE_LOCATION,
+      
+
+      SUM(TRANSACTION_QTY) AS total_items_sold,
+      SUM(UNIT_PRICE) AS total_revenue,
+      SUM(TRANSACTION_ID) AS number_of_customers,
+
+      --Purchase date and time
+      DAYOFMONTH(TRANSACTION_DATE) AS day_of_month,
+      DAYNAME(TRANSACTION_DATE) AS day_of_purchase,
+      MONTHNAME(TRANSACTION_DATE) AS day_of_month,
+      DAYOFWEEK(TRANSACTION_DATE) AS day_of_week,
+      
+ CASE
+      WHEN TRANSACTION_TIME BETWEEN '06:00:00' AND '11:59:00' THEN 'morning'
+      WHEN TRANSACTION_TIME BETWEEN '12:00:00' AND '15:00:00' THEN 'afternoon'
+      ELSE 'evening'
+      END AS trading_time
+     
+FROM
+  "BRIGHTCOFFEESHOP"."PUBLIC"."COFFEE_SHOP",
+GROUP BY ALL
+ORDER BY TOTAL_REVENUE DESC; 
